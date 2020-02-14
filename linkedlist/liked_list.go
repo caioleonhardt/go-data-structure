@@ -11,6 +11,7 @@ type List interface {
 	Add(n int)
 	Get(i int) int
 	Remove(i int)
+	Size() int
 }
 
 // LinkedList data structure
@@ -49,6 +50,70 @@ func (l *LinkedList) append(n int) {
 	node := &Node{n, nil}
 	l.tail.next = node
 	l.tail = node
+}
+
+// Get returns the n element in the collection.
+func (l *LinkedList) Get(i int) int {
+	if i == 0 {
+		return l.head.data
+	}
+
+	count := 0
+	var res int
+	l.transverse(func(n Node) {
+		if i == count {
+			res = n.data
+		}
+		count++
+	})
+
+	return res
+}
+
+// Remove removes the n element in the collection.
+func (l *LinkedList) Remove(i int) {
+	var prev *Node
+	var next *Node
+	count := 0
+	for cur := l.head; cur != nil; cur = cur.next {
+		next = cur.next
+
+		if count == i {
+			// have only one node
+			if l.head == l.tail {
+				l.head = nil
+				l.tail = nil
+				l.size--
+				return
+			}
+
+			if cur == l.head {
+
+				l.head = next
+				cur.next = nil
+				l.size--
+				return
+			}
+
+			if cur == l.tail {
+				l.tail = prev
+				prev.next = nil
+				l.size--
+				return
+			}
+
+			prev.next = next
+			cur.next = nil
+		}
+
+		count++
+		prev = cur
+	}
+}
+
+// Size returns how many elements there are in the collection.
+func (l *LinkedList) Size() int {
+	return l.size
 }
 
 func (l *LinkedList) transverse(f func(n Node)) {
