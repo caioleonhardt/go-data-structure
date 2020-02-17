@@ -28,7 +28,7 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func ExampleLinkedListString() {
+func ExampleLinkedList_String() {
 	l := NewLinkedList()
 	l.Add(1)
 	l.Add(2)
@@ -39,7 +39,7 @@ func ExampleLinkedListString() {
 	//Output: 1-> 2-> 3-> 4
 }
 
-func ExampleGet() {
+func ExampleLinkedList_Get() {
 	l := NewLinkedList()
 	l.Add(1)
 	l.Add(2)
@@ -113,7 +113,7 @@ func TestRemoveMiddle(t *testing.T) {
 	}
 }
 
-func ExampleSize() {
+func ExampleLinkedList_Size() {
 	l := NewLinkedList()
 	fmt.Println(l.Size())
 
