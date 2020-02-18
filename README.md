@@ -4,3 +4,4 @@ Data structures in Go
 
 - Linked List
 - Stack
+- Queue
