@@ -1,7 +1,10 @@
-# go-data-structure
-
-Data structures in Go
+# Data structures in Go
 
 - Linked List
 - Stack
 - Queue
+
+## TODO:
+- Tree
+    - Max
+    - Min
