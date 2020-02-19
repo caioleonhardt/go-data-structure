@@ -1,5 +1,9 @@
 package tree
 
+import (
+	"fmt"
+)
+
 // BinaryTree binary tree data structure
 type BinaryTree struct {
 	//root
@@ -38,8 +42,20 @@ func insert(n *Node, i int) {
 }
 
 // Search the element in the tree
-func (t *BinaryTree) Search(i int) (Node, error) {
-	panic("not implemented") // TODO: Implement
+func (t *BinaryTree) Search(i int) (*Node, error) {
+	var node *Node
+
+	t.Walk(func(n Node) {
+		if i == n.val {
+			node = &n
+		}
+	})
+
+	if node == nil {
+		return nil, fmt.Errorf("NotFound element %d", i)
+	}
+
+	return node, nil
 }
 
 // Delete the element in the tree
