@@ -22,6 +22,15 @@ func ExampleBinaryTree_Walk() {
 	// Output: 1 -> 10 -> 16 -> 19 -> 23 -> 32 -> 55 -> 79 ->
 }
 
+func ExampleBinaryTree_Walk_empty() {
+	t := NewBinaryTree()
+
+	t.Walk(func(n Node) {
+		fmt.Printf("%d -> ", n.val)
+	})
+	// Output:
+}
+
 func ExampleBinaryTree_Search_find() {
 	t := NewBinaryTree()
 
@@ -51,6 +60,15 @@ func ExampleBinaryTree_Search_notfound() {
 	t.Insert(19)
 	t.Insert(23)
 	t.Insert(16)
+
+	n, err := t.Search(22)
+	fmt.Println(n, err)
+
+	// Output: <nil> NotFound element 22
+}
+
+func ExampleBinaryTree_Search_empty() {
+	t := NewBinaryTree()
 
 	n, err := t.Search(22)
 	fmt.Println(n, err)

@@ -69,6 +69,10 @@ func (t *BinaryTree) Walk(c Callback) {
 }
 
 func inOrder(n *Node, c Callback) {
+	if n == nil {
+		return
+	}
+
 	if n.left != nil {
 		inOrder(n.left, c)
 	}
