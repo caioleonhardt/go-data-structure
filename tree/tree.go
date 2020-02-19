@@ -10,7 +10,7 @@ type Node struct {
 }
 
 // Callback to be executed for each node in Walk
-type Callback func(n Node)
+type Callback func(n *Node)
 
 // Tree data structure
 type Tree interface {

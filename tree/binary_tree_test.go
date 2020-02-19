@@ -2,6 +2,7 @@ package tree
 
 import (
 	"fmt"
+	"testing"
 )
 
 func ExampleBinaryTree_Walk() {
@@ -16,7 +17,7 @@ func ExampleBinaryTree_Walk() {
 	t.Insert(23)
 	t.Insert(16)
 
-	t.Walk(func(n Node) {
+	t.Walk(func(n *Node) {
 		fmt.Printf("%d -> ", n.val)
 	})
 	// Output: 1 -> 10 -> 16 -> 19 -> 23 -> 32 -> 55 -> 79 ->
@@ -25,7 +26,7 @@ func ExampleBinaryTree_Walk() {
 func ExampleBinaryTree_Walk_empty() {
 	t := NewBinaryTree()
 
-	t.Walk(func(n Node) {
+	t.Walk(func(n *Node) {
 		fmt.Printf("%d -> ", n.val)
 	})
 	// Output:
@@ -74,4 +75,50 @@ func ExampleBinaryTree_Search_empty() {
 	fmt.Println(n, err)
 
 	// Output: <nil> NotFound element 22
+}
+
+func TestBinaryTree_Delete_empty(t *testing.T) {
+	err := NewBinaryTree().Delete(1)
+
+	if err == nil || err.Error() != "EmptyTree" {
+		t.Errorf("Delete() = EmptyTree, got= %v", err)
+	}
+}
+
+func TestBinaryTree_Delete_leftLeaf(t *testing.T) {
+	tr := NewBinaryTree()
+	tr.Insert(32)
+	tr.Insert(10)
+	tr.Insert(1)
+	tr.Insert(19)
+
+	// left
+	if gotErr := tr.Delete(1); gotErr != nil {
+		t.Errorf("Delete() = nil, got= %v", gotErr)
+	}
+
+	want := "10 -> 19 -> 32"
+	if gotStr := tr.String(); gotStr != want {
+		t.Errorf("String() = %s, got= %v", want, gotStr)
+
+	}
+}
+
+func TestBinaryTree_Delete_rightLeaf(t *testing.T) {
+	tr := NewBinaryTree()
+	tr.Insert(32)
+	tr.Insert(10)
+	tr.Insert(1)
+	tr.Insert(19)
+
+	//right
+	if gotErr := tr.Delete(19); gotErr != nil {
+		t.Errorf("Delete() = nil, got= %v", gotErr)
+	}
+
+	want := "1 -> 10 -> 32"
+	if gotStr := tr.String(); gotStr != want {
+		t.Errorf("String() = %s, got= %v", want, gotStr)
+
+	}
 }

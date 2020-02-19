@@ -2,6 +2,8 @@ package tree
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 // BinaryTree binary tree data structure
@@ -45,9 +47,9 @@ func insert(n *Node, i int) {
 func (t *BinaryTree) Search(i int) (*Node, error) {
 	var node *Node
 
-	t.Walk(func(n Node) {
+	t.Walk(func(n *Node) {
 		if i == n.val {
-			node = &n
+			node = n
 		}
 	})
 
@@ -60,7 +62,32 @@ func (t *BinaryTree) Search(i int) (*Node, error) {
 
 // Delete the element in the tree
 func (t *BinaryTree) Delete(i int) error {
-	panic("not implemented") // TODO: Implement
+	if t.root == nil {
+		return fmt.Errorf("EmptyTree")
+	}
+
+	prev := t.root
+	for cur := t.root; cur != nil; {
+		// found leaf
+		if i == cur.val && cur.left == nil && cur.right == nil {
+			if prev.left == cur {
+				prev.left = nil
+			} else if prev.right == cur {
+				prev.right = nil
+			}
+			return nil
+		}
+
+		// update pointers
+		prev = cur
+		if i < cur.val {
+			cur = cur.left
+		} else if i > cur.val {
+			cur = cur.right
+		}
+	}
+
+	return fmt.Errorf("NotFound")
 }
 
 // Walk traverses the tree
@@ -77,9 +104,21 @@ func inOrder(n *Node, c Callback) {
 		inOrder(n.left, c)
 	}
 
-	c(*n)
+	c(n)
 
 	if n.right != nil {
 		inOrder(n.right, c)
 	}
+}
+
+func (t *BinaryTree) String() string {
+	s := []string{}
+	t.Walk(func(n *Node) {
+		if n == nil {
+			return
+		}
+		s = append(s, strconv.Itoa(n.val))
+	})
+
+	return strings.Join(s, " -> ")
 }
