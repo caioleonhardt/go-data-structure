@@ -11,18 +11,55 @@ func NewBinaryTree() *BinaryTree {
 	return &BinaryTree{}
 }
 
+// Insert the element in the tree
 func (t *BinaryTree) Insert(i int) {
-	panic("not implemented") // TODO: Implement
+	if t.root == nil {
+		t.root = &Node{i, nil, nil}
+		return
+	}
+
+	insert(t.root, i)
 }
 
+func insert(n *Node, i int) {
+	if i < n.val {
+		if n.left == nil {
+			n.left = &Node{i, nil, nil}
+		} else {
+			insert(n.left, i)
+		}
+	} else if i > n.val {
+		if n.right == nil {
+			n.right = &Node{i, nil, nil}
+		} else {
+			insert(n.right, i)
+		}
+	}
+}
+
+// Search the element in the tree
 func (t *BinaryTree) Search(i int) (Node, error) {
 	panic("not implemented") // TODO: Implement
 }
 
+// Delete the element in the tree
 func (t *BinaryTree) Delete(i int) error {
 	panic("not implemented") // TODO: Implement
 }
 
+// Walk traverses the tree
 func (t *BinaryTree) Walk(c Callback) {
-	panic("not implemented") // TODO: Implement
+	inOrder(t.root, c)
+}
+
+func inOrder(n *Node, c Callback) {
+	if n.left != nil {
+		inOrder(n.left, c)
+	}
+
+	c(*n)
+
+	if n.right != nil {
+		inOrder(n.right, c)
+	}
 }
