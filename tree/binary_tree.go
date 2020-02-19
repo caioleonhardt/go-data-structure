@@ -65,42 +65,47 @@ func (t *BinaryTree) Delete(i int) error {
 	if t.root == nil {
 		return fmt.Errorf("EmptyTree")
 	}
+	t.root = delete(t.root, i)
+	return nil
+}
 
-	prev := t.root
-	for cur := t.root; cur != nil; {
-		if i == cur.val {
-			// found leaf
-			if cur.left == nil && cur.right == nil {
-				if prev.left == cur {
-					prev.left = nil
-				} else if prev.right == cur {
-					prev.right = nil
-				}
-				return nil
-			}
-
-			if cur.right == nil {
-				if prev.left == cur {
-					prev.left = cur.left
-				} else if prev.right == cur {
-					prev.right = cur.left
-				}
-				return nil
-			} else if cur.left == nil {
-				return nil
-			}
+func delete(n *Node, i int) *Node {
+	if i < n.val {
+		n.left = delete(n.left, i)
+	} else if i > n.val {
+		n.right = delete(n.right, i)
+	} else {
+		// found leaf
+		if n.left == nil && n.right == nil {
+			return nil
 		}
 
-		// update pointers
-		prev = cur
-		if i < cur.val {
-			cur = cur.left
-		} else if i > cur.val {
-			cur = cur.right
+		// found one left leaf
+		// or one right leaf
+		if n.right == nil {
+			tmp := n.left
+			n = nil
+			return tmp
+		} else if n.left == nil {
+			tmp := n.right
+			n = nil
+			return tmp
 		}
+
+		tmp := predecessor(n.left)
+		n.val = tmp.val
+		n.left = delete(n.left, n.val)
 	}
 
-	return fmt.Errorf("NotFound")
+	return n
+}
+
+func predecessor(n *Node) *Node {
+	if n.right != nil {
+		return predecessor(n.right)
+	}
+
+	return n
 }
 
 // Walk traverses the tree
