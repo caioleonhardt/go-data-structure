@@ -68,14 +68,27 @@ func (t *BinaryTree) Delete(i int) error {
 
 	prev := t.root
 	for cur := t.root; cur != nil; {
-		// found leaf
-		if i == cur.val && cur.left == nil && cur.right == nil {
-			if prev.left == cur {
-				prev.left = nil
-			} else if prev.right == cur {
-				prev.right = nil
+		if i == cur.val {
+			// found leaf
+			if cur.left == nil && cur.right == nil {
+				if prev.left == cur {
+					prev.left = nil
+				} else if prev.right == cur {
+					prev.right = nil
+				}
+				return nil
 			}
-			return nil
+
+			if cur.right == nil {
+				if prev.left == cur {
+					prev.left = cur.left
+				} else if prev.right == cur {
+					prev.right = cur.left
+				}
+				return nil
+			} else if cur.left == nil {
+				return nil
+			}
 		}
 
 		// update pointers
@@ -121,4 +134,8 @@ func (t *BinaryTree) String() string {
 	})
 
 	return strings.Join(s, " -> ")
+}
+
+func (n *Node) String() string {
+	return strconv.Itoa(n.val)
 }

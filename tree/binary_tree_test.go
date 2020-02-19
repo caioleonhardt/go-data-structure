@@ -122,3 +122,42 @@ func TestBinaryTree_Delete_rightLeaf(t *testing.T) {
 
 	}
 }
+
+func TestBinaryTree_Delete_left_LL(t *testing.T) {
+	tr := NewBinaryTree()
+	tr.Insert(32)
+	tr.Insert(10)
+	tr.Insert(1)
+
+	fmt.Println("before:", tr)
+	//right
+	if gotErr := tr.Delete(10); gotErr != nil {
+		t.Errorf("Delete() = nil, got= %v", gotErr)
+	}
+
+	want := "1 -> 32"
+	if gotStr := tr.String(); gotStr != want {
+		t.Errorf("String() = %s, got= %v", want, gotStr)
+
+	}
+	fmt.Println("after:", tr)
+}
+
+func TestBinaryTree_Delete_left_RL(t *testing.T) {
+	tr := NewBinaryTree()
+	tr.Insert(32)
+	tr.Insert(55)
+	tr.Insert(44)
+
+	fmt.Println("before:", tr)
+	//right
+	if gotErr := tr.Delete(55); gotErr != nil {
+		t.Errorf("Delete() = nil, got= %v", gotErr)
+	}
+
+	want := "32 -> 44"
+	if gotStr := tr.String(); gotStr != want {
+		t.Errorf("String() = %s, got= %v", want, gotStr)
+	}
+	fmt.Println("after:", tr)
+}
